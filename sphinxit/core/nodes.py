@@ -15,6 +15,7 @@ from collections import deque
 from sphinxit.core.convertors import (
     FilterCtx,
     ORFilterCtx,
+    MatchDataCtx,
     MatchQueryCtx,
     AliasFieldCtx,
     FieldCtx,
@@ -537,7 +538,9 @@ class SnippetsQueryNode(ConfigMixin):
             value = string_from_string(value, self.is_strict)
             # if value and value not in self.data:
             if value:
-                self.data.append(value)
+                # self.data.append(value)
+                with MatchDataCtx(value).with_config(self.config) as lex:
+                    self.data.append(lex)
         return self
 
     def add_query(self, query):

@@ -131,38 +131,47 @@ class ORFilterCtx(FilterCtx):
     }
 
 
-class MatchQueryCtx(CtxMixin):
+class MatchCtx(CtxMixin):
+    exception_massage = '"{data}" is not a string'
 
-    def __init__(self, query, raw=False):
-        super(MatchQueryCtx, self).__init__()
-        self.query = query
+    def __init__(self, data, raw=False):
+        super(MatchCtx, self).__init__()
+        self.data = data
         self.is_raw = raw
 
     def __enter__(self):
-        if not isinstance(self.query, six.string_types):
+        if not isinstance(self.data, six.string_types):
             return self.__exit__(
                 exc_val=SphinxQLSyntaxException(
-                    '"%s" query is not a string' % self.query
+                    self.exception_massage.format(data=self.data)
                 )
             )
-        if not bool(self.query.strip()):
+        if not bool(self.data.strip()):
             return None
 
         if not self.is_raw:
             single_escape_chars_re = '|\\'.join(ESCAPED_CHARS.single_escape)
-            self.query = re.sub(
+            self.data = re.sub(
                 single_escape_chars_re,
                 lambda m: r'\%s' % m.group(),
-                self.query
+                self.data
             )
             double_escape_chars_re = '|\\'.join(ESCAPED_CHARS.double_escape)
-            self.query = re.sub(
+            self.data = re.sub(
                 double_escape_chars_re,
                 lambda m: r'\\%s' % m.group(),
-                self.query
+                self.data
             )
 
-        return self.query
+        return self.data
+
+
+class MatchQueryCtx(MatchCtx):
+    exception_massage = '"{data}" query is not a string'
+
+
+class MatchDataCtx(MatchCtx):
+    exception_massage = '"{data}" data is not a string'
 
 
 class FieldCtx(CtxMixin):

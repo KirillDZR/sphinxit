@@ -66,7 +66,7 @@ RESERVED_KEYWORDS = (
 
 
 ESCAPED_CHARS = namedtuple('EscapedChars', ['single_escape', 'double_escape'])(
-    single_escape=("'", '+', '[', ']', '=', '*'),
+    single_escape=("'", '+', '[', ']', '=', '*', '\\'),
     double_escape=('@', '!', '^', '(', ')', '~', '-', '|', '/', '<<', '$', '"')
 )
 
