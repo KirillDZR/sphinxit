@@ -168,7 +168,8 @@ class TestSnippets(unittest.TestCase):
         )
         self.assertEqual(
             snippets.lex(),
-            "CALL SNIPPETS ('amore', 'company', 'Me amore')"
+            "CALL SNIPPETS ('amore', 'company', 'Me amore', "
+            "'<strong>' AS before_match, '</strong>' AS after_match)"
         )
 
     def test_extended_1(self):
@@ -179,7 +180,8 @@ class TestSnippets(unittest.TestCase):
         )
         self.assertEqual(
             snippets.lex(),
-            "CALL SNIPPETS (('amore', 'amore mia'), 'company', 'Me amore')"
+            "CALL SNIPPETS (('amore', 'amore mia'), 'company', 'Me amore', "
+            "'<strong>' AS before_match, '</strong>' AS after_match)"
         )
 
     def test_extended_2(self):
@@ -191,7 +193,8 @@ class TestSnippets(unittest.TestCase):
         )
         self.assertEqual(
             snippets.lex(),
-            "CALL SNIPPETS (('amore', 'me amore'), 'company', 'Me amore')"
+            "CALL SNIPPETS (('amore', 'me amore'), 'company', 'Me amore', "
+            "'<strong>' AS before_match, '</strong>' AS after_match)"
         )
 
     def test_with_options(self):
