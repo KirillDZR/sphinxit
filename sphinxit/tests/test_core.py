@@ -231,7 +231,7 @@ class TestSnippetsQueryNode(unittest.TestCase):
         node = (
             SnippetsQueryNodeSoft(index='index_name')
             .add_data('me amore', 'me amore python')
-            .add_data('me amore python')
+            # .add_data('me amore python')
             .add_query('me amore')
             .add_query('me amore')
             .add_query('python')

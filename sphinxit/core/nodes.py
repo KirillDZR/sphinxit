@@ -535,7 +535,8 @@ class SnippetsQueryNode(ConfigMixin):
         data = sparse_free_sequence(data)
         for value in data:
             value = string_from_string(value, self.is_strict)
-            if value and value not in self.data:
+            # if value and value not in self.data:
+            if value:
                 self.data.append(value)
         return self
 
