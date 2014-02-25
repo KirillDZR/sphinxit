@@ -296,6 +296,10 @@ class Snippet(ConfigMixin):
         self.config = config
         self.connector = connector or SphinxConnector(config)
 
+        snippets_config = getattr(self.config, 'SNIPPETS_DEFAULTS', None)
+        if snippets_config and isinstance(snippets_config, dict):
+            self.options(**snippets_config)
+
     def from_data(self, *args):
         self._snippets_tree.SnippetQuery.add_data(*args)
         return self
