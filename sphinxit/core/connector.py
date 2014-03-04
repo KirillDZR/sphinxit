@@ -20,11 +20,11 @@ oursql = False
 mysqldb = False
 
 try:
-    import oursql as mysql_client
+    import oursql as sq
     oursql = True
 except ImportError:
     try:
-        import MySQLdb as mysql_client
+        import MySQLdb as sq
         import MySQLdb.cursors
         mysqldb = True
     except ImportError:
@@ -65,12 +65,12 @@ class SphinxConnector(ConfigMixin):
         if not self.__connections_pool:
             for i in range(getattr(self.config, 'POOL_SIZE', 10)):
                 if oursql:
-                    self.__connections_pool.append(mysql_client.connect(
+                    self.__connections_pool.append(sq.connect(
                         **self.connection_options
                     ))
                 if mysqldb:
-                    self.__connections_pool.append(mysql_client.connect(
-                        cursorclass=mysql_client.cursors.DictCursor,
+                    self.__connections_pool.append(sq.connect(
+                        cursorclass=sq.cursors.DictCursor,
                         use_unicode=self.connection_options.pop('use_unicode', True),
                         charset=self.connection_options.pop('charset', 'utf8'),
                         **self.connection_options
@@ -83,7 +83,7 @@ class SphinxConnector(ConfigMixin):
 
     def get_cursor(self, connection):
         if oursql:
-            curs = connection.cursor(mysql_client.DictCursor)
+            curs = connection.cursor(sq.DictCursor)
         if mysqldb:
             curs = connection.cursor()
 
