@@ -533,14 +533,14 @@ class SnippetsQueryNode(ConfigMixin):
         return all((self.index, self.data, self.query))
 
     def add_data(self, *data):
-        data = sparse_free_sequence(data)
+        # data = sparse_free_sequence(data)
         for value in data:
             value = string_from_string(value, self.is_strict)
             # if value and value not in self.data:
-            if value:
-                # self.data.append(value)
-                with MatchDataCtx(value).with_config(self.config) as lex:
-                    self.data.append(lex)
+            # if value:
+            #     self.data.append(value)
+            with MatchDataCtx(value).with_config(self.config) as lex:
+                self.data.append(lex or '')
         return self
 
     def add_query(self, query):
